@@ -13,10 +13,21 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `<h1>Contact Page</h1><p>To get in touch, email me at <a href="mailto:tarunnahak25@gmail.com">Tarun Nahak</a></p>`)
 }
+func pathHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path{
+	case "/":
+		homeHandler(w,r)
+	case "/contact":
+		contactHandler(w,r)
+	default:
+		// TODO: handle the 404 error
+	}
+}
 
 func main() {
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/contact", contactHandler)
+	http.HandleFunc("/", pathHandler)
+	// http.HandleFunc("/contact", contactHandler)
+	// http.HandleFunc("/knowPath", pathHandler)
 	fmt.Println("Starting the server on 3000...")
 	http.ListenAndServe(":3000", nil)
 }
