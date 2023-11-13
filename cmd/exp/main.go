@@ -5,10 +5,6 @@ import (
 	"os"
 )
 
-type User struct {
-	Name string
-}
-
 func main() {
 
 	t, err := template.ParseFiles("hello.gohtml")
@@ -16,7 +12,10 @@ func main() {
 		panic(err)
 	}
 
-	user := User{Name: "Tarun"}
+	// Ananymous struct
+	user := struct {
+		Name string
+	}{Name: "Tarun"}
 
 	err = t.Execute(os.Stdout, user)
 	if err != nil {
