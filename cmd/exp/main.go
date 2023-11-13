@@ -9,6 +9,7 @@ type User struct {
 	Name string
 	Age  int
 	Meta UserMeta
+	Bio  string
 }
 
 type UserMeta struct {
@@ -24,6 +25,7 @@ func main() {
 
 	user := User{
 		Name: "Tarun",
+		Bio:  `<script>alert("hi there");</script>`,
 		Age:  111,
 		Meta: UserMeta{
 			Visits: 34,
