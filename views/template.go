@@ -3,9 +3,14 @@ package views
 import (
 	"fmt"
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
 )
+
+type Template struct {
+	HTMLTpl *template.Template
+}
 
 // Must function
 func Must(t Template, err error) Template {
@@ -13,6 +18,16 @@ func Must(t Template, err error) Template {
 		panic(err)
 	}
 	return t
+}
+
+func ParseFS(fs fs.FS, pattern string) (Template, error) {
+	tpl, err := template.ParseFS(fs, pattern)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template : %w", err)
+	}
+	return Template{
+		HTMLTpl: tpl,
+	}, nil
 }
 
 func Parse(filePath string) (Template, error) {
@@ -23,10 +38,6 @@ func Parse(filePath string) (Template, error) {
 
 	}
 	return Template{HTMLTpl: tpl}, nil
-}
-
-type Template struct {
-	HTMLTpl *template.Template
 }
 
 func (t Template) Execute(w http.ResponseWriter, data interface{}) {
